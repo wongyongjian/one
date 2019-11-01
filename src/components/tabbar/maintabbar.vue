@@ -1,4 +1,5 @@
 <template>
+
   <tabbar>
   <tabbari path='/home'>
     <img slot="icon" src="~assets/image/tabbar/shouye.png" alt="">
