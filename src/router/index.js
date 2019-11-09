@@ -6,6 +6,7 @@ import cart from 'views/cart/cart.vue'
 import category from 'views/category/category.vue'
 import home from 'views/home/home.vue'
 import profile from 'views/profile/profile.vue'
+import detail from 'components/details/detail.vue'
 
 
 const router = new VueRouter({
@@ -14,7 +15,8 @@ const router = new VueRouter({
         {path:'/home',component:home},
         {path:'/cart',component:cart},
         {path:'/category',component:category},
-        {path:'/profile',component:profile}
+        {path:'/profile',component:profile},
+        {path:'/detail',component:detail}
 
     ],
     mode:'history'

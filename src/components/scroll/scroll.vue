@@ -1,6 +1,6 @@
 <template>
   <div ref="wrapper">
-      <div>
+      <div class="content">
           <slot></slot>
       </div>
   </div>
@@ -38,5 +38,6 @@ export default {
 </script>
 
 <style>
+
 
 </style>

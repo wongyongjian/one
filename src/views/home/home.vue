@@ -4,129 +4,47 @@
     <template v-slot:center><p>首页</p></template>
     <!--v-slot 就是用template v-slot（简写#）包裹填充的内容-->
   </navbar>
-  <BScroll class="warpper" ref="scroll" :probe-type="3" @scroll="conscroll">
+  <homenav ref="homenav1" class="hnav" v-show="isshowhomenav" @clicktitle="clicktitle"></homenav>
+  <BScroll class="warpper" ref="scroll" :probe-type="3" @scroll="conscroll" >
     <ul>
-    <li>ces1</li>
-    <li>ces2</li>
-    <li>ces3</li>
-    <li>ces4</li>
-    <li>ces5</li>
-    <li>ces6</li>
-    <li>ces7</li>
-    <li>ces8</li>
-    <li>ces9</li>
-    <li>ces10</li>
-    <li>ces11</li>
-    <li>ces12</li>
-    <li>ces13</li>
-    <li>ces14</li>
-    <li>ces15</li>
-    <li>ces16</li>
-    <li>ces17</li>
-    <li>ces18</li>
-    <li>ces19</li>
-    <li>ces20</li>
-    <li>ces21</li>
-    <li>ces22</li>
-    <li>ces23</li>
-    <li>ces24</li>
-    <li>ces25</li>
-    <li>ces26</li>
-    <li>ces27</li>
-    <li>ces28</li>
-    <li>ces29</li>
-    <li>ces30</li>
-    <li>ces31</li>
-    <li>ces32</li>
-    <li>ces33</li>
-    <li>ces34</li>
-    <li>ces35</li>
-    <li>ces36</li>
-    <li>ces37</li>
-    <li>ces38</li>
-    <li>ces39</li>
-    <li>ces40</li>
-    <li>ces41</li>
-    <li>ces42</li>
-    <li>ces43</li>
-    <li>ces44</li>
-    <li>ces45</li>
-    <li>ces46</li>
-    <li>ces47</li>
-    <li>ces48</li>
-    <li>ces49</li>
-    <li>ces50</li>
-    <li>ces51</li>
-    <li>ces52</li>
-    <li>ces53</li>
-    <li>ces54</li>
-    <li>ces55</li>
-    <li>ces56</li>
-    <li>ces57</li>
-    <li>ces58</li>
-    <li>ces59</li>
-    <li>ces60</li>
-    <li>ces61</li>
-    <li>ces62</li>
-    <li>ces63</li>
-    <li>ces64</li>
-    <li>ces65</li>
-    <li>ces66</li>
-    <li>ces67</li>
-    <li>ces68</li>
-    <li>ces69</li>
-    <li>ces70</li>
-    <li>ces71</li>
-    <li>ces72</li>
-    <li>ces73</li>
-    <li>ces74</li>
-    <li>ces75</li>
-    <li>ces76</li>
-    <li>ces77</li>
-    <li>ces78</li>
-    <li>ces79</li>
-    <li>ces80</li>
-    <li>ces81</li>
-    <li>ces82</li>
-    <li>ces83</li>
-    <li>ces84</li>
-    <li>ces85</li>
-    <li>ces86</li>
-    <li>ces87</li>
-    <li>ces88</li>
-    <li>ces89</li>
-    <li>ces90</li>
-    <li>ces91</li>
-    <li>ces92</li>
-    <li>ces93</li>
-    <li>ces94</li>
-    <li>ces95</li>
-    <li>ces96</li>
-    <li>ces97</li>
-    <li>ces98</li>
-    <li>ces99</li>
-    <li>ces100</li>
-  </ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <homenav ref="homenav2" v-show="!isshowhomenav" @clicktitle="clicktitle"></homenav>
+    <div class="goodslist">
+      <div v-for="(box,i) in 100" :key="i" class="goods" @click="imgclick(i)" >
+      <img :src="imgurl" alt="" @load="imgload">
+      </div>
+      </div>
   </BScroll>
   <Backtop @click.native="backtopclick" v-show="isshow"></Backtop>
-  
   </div>
 </template>
 
 <script>
 import BScroll from 'components/scroll/scroll.vue'
 import navbar from 'components/navbar/navbar.vue'
+import homenav from 'components/navbar/homenav.vue'
 import Backtop from 'components/backtop/backtop.vue'
+import { log } from 'util'
 export default {
   data(){
     return{
-     isshow:false
+     isshow:false,
+     homenavH:0,
+     isshowhomenav:false,
+     imgurl:require("assets/image/tabbar/workspaces.jpg")
+     
     }
   },
   components:{
     navbar,
     BScroll,
-    Backtop
+    Backtop,
+    homenav
   },
   methods:{
     //返回顶部
@@ -137,11 +55,58 @@ export default {
     //判断返回顶部是否消失
     conscroll(position){
       this.isshow = -position.y > 600
+      this.isshowhomenav = -position.y > this.homenavH
+
+    },
+    clicktitle(index){
+      //console.log(index);
+      switch (index) {
+        case 0:
+          this.imgurl = require("assets/image/tabbar/workspaces.jpg")
+          break;
+          case 1:
+          this.imgurl = require("assets/image/tabbar/room.jpg")
+          break;
+          case 2:
+          this.imgurl = require("assets/image/tabbar/cheer.jpg")
+          break;
+          case 3:
+          this.imgurl = require("assets/image/tabbar/zuozi.jpg")
+          break;
+      }
+      this.$refs.homenav1.currentindex = index;
+      this.$refs.homenav2.currentindex = index
+
+    },
+    imgclick(i){
+      
+      this.$router.push({
+        path:'/detail',
+        query:{
+          id:i,
+          price:(i*2),
+          count:0,
+          ischeck:true
+        }
+      })
+      
+    },
+    imgload(){
+      
+      
+      this.$refs.scroll.refresh
     }
+
   },
   //页面组件创建完发送网络请求
-  create(){},
-  mounted(){}
+  create(){
+    
+  },
+  mounted(){
+    this.homenavH = this.$refs.homenav2.$el.offsetTop
+    //组件没有offsetTop方法，通过$el获取组件内部的元素的offsetTop（高度）
+    
+  }
 
 }
 </script>
@@ -156,16 +121,31 @@ export default {
   color: aliceblue;
 }
 .warpper{
-  
-  
   overflow: hidden;
   position: absolute;
   top: 44px;
   bottom: 49px;
   left: 0;
   right: 0;
-
-
+}
+.hnav{
+  z-index: 9;
+  position: relative;
+  background-color: aliceblue
+}
+.goodslist{
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+.goods{
+  
+  margin: 5px;
+  flex: 1
+}
+.goods img{
+  width: 177.5px;
+  height: 200px;
 }
 
 </style>
