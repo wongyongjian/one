@@ -1,22 +1,17 @@
 <template>
   <div class="home">
+    
   <navbar class="nav-home">
     <template v-slot:center><p>首页</p></template>
     <!--v-slot 就是用template v-slot（简写#）包裹填充的内容-->
   </navbar>
   <homenav ref="homenav1" class="hnav" v-show="isshowhomenav" @clicktitle="clicktitle"></homenav>
   <BScroll class="warpper" ref="scroll" :probe-type="3" @scroll="conscroll" >
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+    <img src="~assets/image/tabbar/tianchong.jpg" alt="" class="imgs">
     <homenav ref="homenav2" v-show="!isshowhomenav" @clicktitle="clicktitle"></homenav>
     <div class="goodslist">
       <div v-for="(box,i) in 100" :key="i" class="goods" @click="imgclick(i)" >
-      <img :src="imgurl" alt="" @load="imgload">
+      <img v-lazy="imgurl" alt="" @load="imgload">
       </div>
       </div>
   </BScroll>
@@ -30,14 +25,14 @@ import navbar from 'components/navbar/navbar.vue'
 import homenav from 'components/navbar/homenav.vue'
 import Backtop from 'components/backtop/backtop.vue'
 import { log } from 'util'
+
 export default {
   data(){
     return{
      isshow:false,
      homenavH:0,
      isshowhomenav:false,
-     imgurl:require("assets/image/tabbar/workspaces.jpg")
-     
+     imgurl:require("assets/image/tabbar/workspaces.jpg"),
     }
   },
   components:{
@@ -92,21 +87,14 @@ export default {
       
     },
     imgload(){
-      
-      
       this.$refs.scroll.refresh
     }
+  },
 
-  },
-  //页面组件创建完发送网络请求
-  create(){
-    
-  },
   mounted(){
     this.homenavH = this.$refs.homenav2.$el.offsetTop
     //组件没有offsetTop方法，通过$el获取组件内部的元素的offsetTop（高度）
-    
-  }
+  },
 
 }
 </script>
@@ -145,6 +133,10 @@ export default {
 }
 .goods img{
   width: 177.5px;
+  height: 200px;
+}
+.imgs{
+  width: 100%;
   height: 200px;
 }
 
